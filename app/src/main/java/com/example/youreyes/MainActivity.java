@@ -50,7 +50,7 @@ TextView tx;
            @Override
            public void onClick(View v) {
              getLocation();
-               tts();
+
            }
        });
         
@@ -72,7 +72,8 @@ TextView tx;
                         Geocoder geocoder = new Geocoder(MainActivity.this, Locale.ENGLISH);
                         List<Address> addresses = geocoder.getFromLocation(
                                 location.getLatitude(), location.getLongitude(), 1);
-                       tx.setText(addresses.get(0).getAddressLine(0));
+                       tx.setText(addresses.get(0).getCountryName()+addresses.get(0).getLocality());
+                       tts(addresses.get(0).getCountryName()+addresses.get(0).getLocality());
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -84,14 +85,14 @@ TextView tx;
         });
 
     }
-    private void tts(){
+    private void tts(String a){
                 tss= new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
                     @Override
                     public void onInit(int status) {
                          if(status==TextToSpeech.SUCCESS){
                              tss.setLanguage(Locale.ENGLISH);
                              tss.setSpeechRate(0.7f);
-                             tss.speak(tx.getText().toString(),TextToSpeech.QUEUE_ADD,null);
+                             tss.speak(a,TextToSpeech.QUEUE_ADD,null);
 
                          }
                     }
