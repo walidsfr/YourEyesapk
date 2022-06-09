@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class perssone extends MainActivity {
+public class perssone  {
 
 
 }
