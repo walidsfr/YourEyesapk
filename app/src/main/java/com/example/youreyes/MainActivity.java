@@ -31,14 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
+import java.util.Timer;
 
 
 public class MainActivity extends AppCompatActivity {
 
     Button bn;
 TextView tx;
-String text="hi";
+String text="xy";
+    int N=0;
    boolean a =false;
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
@@ -55,6 +56,16 @@ String text="hi";
         if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
         }
+
+
+
+
+    speechtotext();
+        texttospeech(text);
+
+
+
+
 
 
 
@@ -132,6 +143,7 @@ return true ;
                 ArrayList<String> result = data.getStringArrayListExtra(
                         RecognizerIntent.EXTRA_RESULTS);
 text =Objects.requireNonNull(result).get(0) ;
+N=1;
 
             }
         }}
@@ -144,5 +156,15 @@ text =Objects.requireNonNull(result).get(0) ;
 
         }
     }
+private void waiting (){
 
+    while (N==0){
+            try {
+                this.wait(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+}
 }
