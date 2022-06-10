@@ -1,21 +1,28 @@
 package com.example.youreyes;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,36 +46,39 @@ public class MainActivity extends AppCompatActivity {
     Button bn;
 TextView tx;
 String text="xy";
-    int N=0;
-   boolean a =false;
+EditText et;
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     FusedLocationProviderClient fusedLocationProviderClient;
     TextToSpeech tss;
+    String[] permissionArrays = new String[]{Manifest.permission.CALL_PHONE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    int REQUEST_CODE = 101;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tx=findViewById(R.id.textView);
+        et=findViewById(R.id.phone);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
         bn = findViewById(R.id.button);
         //
         if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
+        }if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_CONTACTS},44);
         }
-
-
-
-
-    speechtotext();
-        texttospeech(text);
-
-
-
-
-
-
-
+        if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
+        }
+        bn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i =new Intent(Intent.ACTION_CALL_BUTTON);
+                i.setData(Uri.parse("tel:"+ Uri.encode("*100#")));
+                startActivity(i);
+            }
+        });
 
 
     }
@@ -136,35 +146,22 @@ String text="xy";
     }
 return true ;
 }
-    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
-            if (resultCode == RESULT_OK && data != null) {
-                ArrayList<String> result = data.getStringArrayListExtra(
-                        RecognizerIntent.EXTRA_RESULTS);
-text =Objects.requireNonNull(result).get(0) ;
-N=1;
+        switch (requestCode) {
+            case REQUEST_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
 
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    String speechText = tx.getText().toString() + "\n" + result.get(0);
+                    tx.setText(speechText);
+                }
+                break;
             }
-        }}
-    private void tiem(){
-        try {
-            while (a==true){
-                tx.setText(text);
-            }
-        }catch (Exception e){
-
         }
     }
-private void waiting (){
 
-    while (N==0){
-            try {
-                this.wait(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
-}
+
 }
