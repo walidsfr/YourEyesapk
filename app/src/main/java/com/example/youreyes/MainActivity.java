@@ -65,7 +65,21 @@ int N =0;
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
         }
         speechtotext();
-        texttospeech(text);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (N==0){
+
+                }
+                runOnUiThread(new Runnable( ) {
+                    @Override
+                    public void run() {
+                        texttospeech("hello");
+                    }
+                });
+            }
+        }).start();
+
     }
 
     @SuppressLint("MissingPermission")
@@ -139,8 +153,9 @@ int N =0;
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String speechText = tx.getText().toString() + "\n" + result.get(0);
-                    tx.setText(speechText);
+
+                    text=  result.get(0);
+                    N=1;
                 }
                 break;
             }
