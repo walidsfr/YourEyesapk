@@ -47,13 +47,11 @@ public class MainActivity extends AppCompatActivity {
 TextView tx;
 String text="xy";
 EditText et;
+int N =0;
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     FusedLocationProviderClient fusedLocationProviderClient;
     TextToSpeech tss;
-    String[] permissionArrays = new String[]{Manifest.permission.CALL_PHONE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    int REQUEST_CODE = 101;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,22 +63,9 @@ EditText et;
         //
         if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
-        }if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_CONTACTS},44);
         }
-        if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
-        }
-        bn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i =new Intent(Intent.ACTION_CALL_BUTTON);
-                i.setData(Uri.parse("tel:"+ Uri.encode("*100#")));
-                startActivity(i);
-            }
-        });
-
-
+        speechtotext();
+        texttospeech(text);
     }
 
     @SuppressLint("MissingPermission")
@@ -127,7 +112,7 @@ EditText et;
 
 
 }
-    private boolean speechtotext(){
+    private void speechtotext(){
     Intent intent
             = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -144,7 +129,7 @@ EditText et;
         Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
 
     }
-return true ;
+
 }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
