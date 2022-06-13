@@ -10,6 +10,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -44,10 +45,10 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-Button bn;
+
 TextView tx;
 String text="xy";
-EditText et;
+View v;
 int N =0;
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -56,65 +57,54 @@ int N =0;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tx=findViewById(R.id.textView);
-        et=findViewById(R.id.phone);
+v=findViewById(R.id.view2);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
-        bn = findViewById(R.id.button);
+
         //
         if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
         }
+texttospeech("Hi I am your eyes what I can help you");
+        Thread T;
+      v.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
 
-            speechtotext();
+                              speechtotext();
+               new Thread(new Runnable() {
+                                  @Override
+                                  public void run() {
+                                      while (N == 0) {
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while (N == 0 ) {
+                                      }
+                                      runOnUiThread(new Runnable() {
+                                          @Override
+                                          public void run() {
 
-                    }
-                    if (text.equals("Hello")){
-                        texttospeech("Hi walid");
-                        try {
-                            TimeUnit.SECONDS.sleep(2);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                                              switch (text){
+                                                  case "my location":
+                                                      getLocation();
+                                                      N=0;
+                                                      break;
+                                                  default:
+                                                      texttospeech("I don't understand");
+                                                      N=0;
+                                                      break;
 
-                                N=0;
-                        speechtotext();
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        while (N == 0) {
-
-                                        }
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-
-                                                switch (text){
-                                                    case "my location":
-                                                        getLocation();
-                                                        break;
-                                                    default:
-                                                        texttospeech("I don't understand");
-                                                }
-
-                                            }
-                                        });
-                                    }
-                                }).start();
+                                              }
+                                              N=0;
+                                          }
+                                      });
+                                  }
 
 
 
+                              }).start();
+                              N=0;
 
+          }
+      });
 
-
-                    }
-
-                }
-            }).start();
         }
 
 
@@ -133,7 +123,7 @@ int N =0;
                         Geocoder geocoder = new Geocoder(MainActivity.this, Locale.ENGLISH);
                         List<Address> addresses = geocoder.getFromLocation(
                                 location.getLatitude(), location.getLongitude(), 1);
-                       tx.setText(addresses.get(0).getCountryName()+addresses.get(0).getLocality());
+
                         texttospeech(addresses.get(0).getCountryName()+addresses.get(0).getLocality());
 
                     } catch (IOException e) {
