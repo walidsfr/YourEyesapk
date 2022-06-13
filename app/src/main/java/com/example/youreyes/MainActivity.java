@@ -69,7 +69,8 @@ texttospeech("Hi I am your eyes what I can help you");
       v.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-
+N=0;
+text="";
                               speechtotext();
                new Thread(new Runnable() {
                                   @Override
@@ -80,11 +81,17 @@ texttospeech("Hi I am your eyes what I can help you");
                                       runOnUiThread(new Runnable() {
                                           @Override
                                           public void run() {
-
+                                              N=0;
+                                              try {
+                                                  Thread.sleep(200);
+                                              } catch (InterruptedException e) {
+                                                  e.printStackTrace();
+                                              }
                                               switch (text){
                                                   case "my location":
                                                       getLocation();
                                                       N=0;
+                                                      text="";
                                                       break;
                                                   default:
                                                       texttospeech("I don't understand");
@@ -92,7 +99,7 @@ texttospeech("Hi I am your eyes what I can help you");
                                                       break;
 
                                               }
-                                              N=0;
+
                                           }
                                       });
                                   }
@@ -100,7 +107,6 @@ texttospeech("Hi I am your eyes what I can help you");
 
 
                               }).start();
-                              N=0;
 
           }
       });
