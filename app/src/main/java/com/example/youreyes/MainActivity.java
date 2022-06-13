@@ -39,16 +39,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    Button bn;
+Button bn;
 TextView tx;
 String text="xy";
 EditText et;
 int N =0;
-
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     FusedLocationProviderClient fusedLocationProviderClient;
     TextToSpeech tss;
@@ -64,23 +64,59 @@ int N =0;
         if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
         }
-        speechtotext();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (N==0){
+
+            speechtotext();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (N == 0 ) {
+
+                    }
+                    if (text.equals("Hello")){
+                        texttospeech("Hi walid");
+                        try {
+                            TimeUnit.SECONDS.sleep(2);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                                N=0;
+                        speechtotext();
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        while (N == 0) {
+
+                                        }
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                switch (text){
+                                                    case "my location":
+                                                        getLocation();
+                                                        break;
+                                                    default:
+                                                        texttospeech("I don't understand");
+                                                }
+
+                                            }
+                                        });
+                                    }
+                                }).start();
+
+
+
+
+
+
+                    }
 
                 }
-                runOnUiThread(new Runnable( ) {
-                    @Override
-                    public void run() {
-                        texttospeech("hello");
-                    }
-                });
-            }
-        }).start();
+            }).start();
+        }
 
-    }
 
     @SuppressLint("MissingPermission")
     private void getLocation() {
