@@ -29,7 +29,7 @@ int i=0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listener);
 
-V=findViewById(R.id.LV);
+
 
 V.setOnClickListener(new View.OnClickListener() {
     @Override
