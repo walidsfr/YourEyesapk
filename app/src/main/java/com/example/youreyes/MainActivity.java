@@ -1,29 +1,20 @@
 package com.example.youreyes;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,15 +23,13 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,6 +47,7 @@ int N =0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 v=findViewById(R.id.view2);
+tx= findViewById(R.id.tx);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
 
         //
@@ -82,32 +72,35 @@ text="";
                                           @Override
                                           public void run() {
                                               N=0;
-                                              try {
-                                                  Thread.sleep(200);
-                                              } catch (InterruptedException e) {
-                                                  e.printStackTrace();
-                                              }
                                               switch (text){
                                                   case "my location":
                                                       getLocation();
                                                       N=0;
                                                       text="";
                                                       break;
+                                                  case "time":
+                                                      getdate();
+                                                      N=0;
+                                                      text="";
+                                                      break;
                                                   default:
                                                       texttospeech("I don't understand");
                                                       N=0;
+                                                      text="";
                                                       break;
 
                                               }
+                                              tx.setText("test 1");
 
                                           }
                                       });
+                                      tx.setText("test 2");
                                   }
 
 
 
                               }).start();
-
+              tx.setText("test 3");
           }
       });
 
@@ -141,6 +134,14 @@ text="";
             }
         });
 
+    }
+    private void getdate(){
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar calendar = Calendar.getInstance();
+        Date dateObj = calendar.getTime();
+        String formattedDate = dtf.format(dateObj);
+        texttospeech(formattedDate);
+        tx.setText(formattedDate);
     }
     private void texttospeech(String a){
                 tss= new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
