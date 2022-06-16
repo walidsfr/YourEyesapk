@@ -51,9 +51,7 @@ tx= findViewById(R.id.tx);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
 
         //
-        if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
-        }
+
 texttospeech("Hi I am your eyes what I can help you");
         Thread T;
       v.setOnClickListener(new View.OnClickListener() {
