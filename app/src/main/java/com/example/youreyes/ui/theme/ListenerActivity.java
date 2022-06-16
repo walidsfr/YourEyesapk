@@ -80,7 +80,7 @@ V2.setOnClickListener(new View.OnClickListener() {
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
                     text=  result.get(0);
-                    N=2;
+                    N=1;
                 }
                 break;
             }
