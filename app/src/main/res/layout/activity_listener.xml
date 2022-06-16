@@ -9,8 +9,8 @@
 
     <View
         android:id="@+id/v1"
-        android:layout_width="410dp"
-        android:layout_height="363dp"
+        android:layout_width="405dp"
+        android:layout_height="338dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +19,8 @@
 
     <View
         android:id="@+id/v2"
-        android:layout_width="411dp"
-        android:layout_height="368dp"
+        android:layout_width="414dp"
+        android:layout_height="393dp"
         android:background="@color/purple_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

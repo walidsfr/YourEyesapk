@@ -20,7 +20,8 @@ import java.util.Locale;
 
 public class ListenerActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
-View V ;
+View V1 ;
+View V2;
 int N=0;
 String text="test";
 int i=0;
@@ -28,24 +29,22 @@ int i=0;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listener);
+        V1=findViewById(R.id.v1);
+V2=findViewById(R.id.v2);
 
-
-
-V.setOnClickListener(new View.OnClickListener() {
+V1.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-
-speechtotext();
-
-
-    Intent d = new Intent(ListenerActivity.this,AnswerActivity.class);
+        speechtotext();
+    }
+});
+V2.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent d = new Intent(ListenerActivity.this,AnswerActivity.class);
     d.putExtra(AnswerActivity.MESSAGE,text);
     startActivity(d);
     finish();
-
-
-
-
     }
 });
 
