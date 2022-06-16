@@ -7,6 +7,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 
 import com.example.youreyes.MainActivity;
@@ -26,7 +27,12 @@ public class FirstActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(FirstActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
         }
         texttospeech("Hi , what I can help you");
+        new Handler().postDelayed(() -> {
 
+            Intent i = new Intent(FirstActivity.this,ListenerActivity.class);
+            startActivity(i);
+            finish();
+        }, 3000);
 
     }
     private void texttospeech(String a){
