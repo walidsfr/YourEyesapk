@@ -8,9 +8,9 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
-        android:background="@raw/logoyoureyes"
+        android:layout_width="121dp"
+        android:layout_height="121dp"
+        android:background="@drawable/youreyes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

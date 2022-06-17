@@ -26,6 +26,9 @@ public class FirstActivity extends AppCompatActivity {
         if(ActivityCompat.checkSelfPermission(FirstActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(FirstActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},44);
         }
+        if(ActivityCompat.checkSelfPermission(FirstActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(FirstActivity.this,new String[]{Manifest.permission.CAMERA},45);
+        }
         texttospeech("Hi , what I can help you");
         new Handler().postDelayed(() -> {
 

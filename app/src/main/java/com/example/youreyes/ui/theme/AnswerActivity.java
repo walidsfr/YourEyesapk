@@ -11,6 +11,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.widget.TextView;
 
@@ -37,7 +38,7 @@ public class AnswerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
-        tx=findViewById(R.id.Atx);
+
         Intent i= getIntent();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(AnswerActivity.this);
 String message = i.getStringExtra(MESSAGE);
@@ -102,7 +103,6 @@ String message = i.getStringExtra(MESSAGE);
         Date dateObj = calendar.getTime();
         String formattedDate = dtf.format(dateObj);
         texttospeech(formattedDate);
-        tx.setText(formattedDate);
     }
     private void gettime(){
         SimpleDateFormat dtf = new SimpleDateFormat("hh:mm");

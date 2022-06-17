@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ButtonBarLayout;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.example.youreyes.MainActivity;
 import com.example.youreyes.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -63,7 +66,7 @@ V2.setOnClickListener(new View.OnClickListener() {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
-                Locale.getDefault());
+                Locale.ENGLISH);
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text");
 
         try {
@@ -97,6 +100,11 @@ V2.setOnClickListener(new View.OnClickListener() {
                         case "what time is it":
                             texttospeech("Click below to confirm your order");
                             break;
+                        case "open camera":
+                            getcamera();
+                            text="xxxx";
+                            break;
+
                         default:
                             texttospeech("I don't understand , please repeat");
                             text="xxxx";
@@ -110,8 +118,14 @@ V2.setOnClickListener(new View.OnClickListener() {
                 }
                 break;
             }
+
         }
     }
+    private void getcamera(){
+        Intent open_Camera =new Intent(MediaStore.INTENT_ACTION_VIDEO_CAMERA);
+        startActivityForResult(open_Camera,100);
+    }
+
     private void texttospeech(String a){
         tss= new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override

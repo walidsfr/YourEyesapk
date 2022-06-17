@@ -13,4 +13,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="button">Button</string>
     <string name="textview">TextView</string>
+    <string name="mic">TODO</string>
+    <string name="valid">TODO</string>
+    <string name="l">TODO</string>
+    <string name="gf">TODO</string>
 </resources>
