@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 TextView tx;
-String text="xy";
+String text="xxxx";
 View v;
 int N =0;
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;

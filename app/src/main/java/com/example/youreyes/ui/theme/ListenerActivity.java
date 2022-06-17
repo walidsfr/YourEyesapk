@@ -22,9 +22,10 @@ public class ListenerActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
 View V1 ;
 View V2;
-int N=0;
-String text="test";
-int i=0;
+
+String text="xxxx";
+TextToSpeech tss ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +42,15 @@ V1.setOnClickListener(new View.OnClickListener() {
 V2.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        Intent d = new Intent(ListenerActivity.this,AnswerActivity.class);
-    d.putExtra(AnswerActivity.MESSAGE,text);
-    startActivity(d);
-    finish();
+        if(text.equals("xxxx")){
+            texttospeech("Please click the top to tell me your order");
+        }else {
+            Intent d = new Intent(ListenerActivity.this,AnswerActivity.class);
+            d.putExtra(AnswerActivity.MESSAGE,text);
+            startActivity(d);
+            finish();
+        }
+
     }
 });
 
@@ -80,10 +86,46 @@ V2.setOnClickListener(new View.OnClickListener() {
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
                     text=  result.get(0);
-                    N=1;
+                    switch (result.get(0)){
+                        case "my location":
+                            texttospeech("Click below to confirm your order");
+
+                            break;
+                        case "date":
+                            texttospeech("Click below to confirm your order");
+                            break;
+                        case "what time is it":
+                            texttospeech("Click below to confirm your order");
+                            break;
+                        default:
+                            texttospeech("I don't understand , please repeat");
+                            text="xxxx";
+                            break;
+
+                    }
+
+
+
+
                 }
                 break;
             }
         }
+    }
+    private void texttospeech(String a){
+        tss= new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status==TextToSpeech.SUCCESS){
+                    tss.setLanguage(Locale.ENGLISH);
+                    tss.setSpeechRate(0.7f);
+                    tss.speak(a,TextToSpeech.QUEUE_ADD,null);
+
+                }
+            }
+        });
+
+
+
     }
 }

@@ -2,7 +2,7 @@ package com.example.youreyes.ui.theme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.PopUpToBuilder;
+
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -42,8 +42,28 @@ public class AnswerActivity extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(AnswerActivity.this);
 String message = i.getStringExtra(MESSAGE);
 
-           getLocation();
+        switch (message){
+            case "my location":
+                getLocation();
+                break;
+            case "date":
+                getdate();
+                break;
+            case "what time is it":
+                gettime();
+                break;
+            default:
+                texttospeech("I don't understand");
+                break;
 
+        }
+
+        new Handler().postDelayed(() -> {
+
+            Intent d = new Intent(AnswerActivity.this,ListenerActivity.class);
+            startActivity(d);
+            finish();
+        }, 3000);
 
 
 
@@ -83,6 +103,14 @@ String message = i.getStringExtra(MESSAGE);
         String formattedDate = dtf.format(dateObj);
         texttospeech(formattedDate);
         tx.setText(formattedDate);
+    }
+    private void gettime(){
+        SimpleDateFormat dtf = new SimpleDateFormat("hh:mm");
+      Date d = new Date();
+
+
+        texttospeech(dtf.format(d));
+
     }
     private void texttospeech(String a){
         tss= new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
